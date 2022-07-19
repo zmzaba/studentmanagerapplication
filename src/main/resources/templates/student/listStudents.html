@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Student Manager</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+		<h3> <b> Student Manager </b> </h3>
+		<div class ="row">
+			<div class = "col-lg-3">
+				<a th:href = "@{/list}" class =" btn btn-primary btn-sm mb-3"> Search </a>
+			</div>
+			<div class = "col-lg-3">
+				<a th:href = "@{/}" class =" btn btn-primary btn-sm mb-3"> Create </a>
+			</div>
+		</div>
+		
+		<h5> Quick Search </h5>
+		<form class="form-group" th:action="@{/search}" th:object="${student}" method="GET" align="left">
+			<div class="row">
+			
+				<div class="col-lg-6">
+					<label> Search By *</label>
+								
+					<select name="criteria" id="criteria" class="form-control">
+						<option value="select">Select</option>
+						<option value="studentNumber">Student Number</option>
+  						<option value="firstName">First Name</option>
+  						<option value="lastName">Last Name</option>
+ 	 					<option value="emailAddress">Email Address</option>
+					</select>
+				</div>
+				<div class="col-lg-6">
+					<label> Search Criteria * </label>
+								
+					<input type="text" name="keyword" class="form-control" required>
+				</div>
+							
+			</div>
+			&nbsp;
+			<div class="row">
+						
+				<div class="col-lg-6">
+																
+					<input type="submit" value="Search" class="form-control"/>
+				</div>
+							
+				<div class="col-lg-6">
+																
+					<input type="reset" value="Clear" class="form-control"/>
+				</div>
+							
+			</div>
+			&nbsp;
+		</form>
+	<table class="table">
+		<thead class="thead-light">
+		<tr>
+			<th>Student No.</th>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Cell No.</th>
+			<th>Email </th>
+			<th>Date of Birth</th>
+			<th>Current Score %</th>
+			<th>Average Score %</th>
+			<th>Action</th>
+			<th></th>
+			<th></th>
+		</tr>
+		</thead>
+		<tr th:each="student : ${students}">
+			<td th:text="${student.studentNumber}"/>
+			<td th:text="${student.firstName}"/>
+			<td th:text="${student.lastName}"/>
+			<td th:text="${student.mobileNumber}"/>
+			<td th:text="${student.emailAddress}"/>
+			<td th:text="${student.dateOfBirth}"/>
+			<td th:text="${student.currentScore}"/>
+			<td th:text="${student.currentScore}"/>
+			<td>
+		    	<form th:action="@{/score}" method="post" th:object="${student}">
+		    		<input type="hidden" name="studentNumber" th:value="${student.studentNumber}">
+		        	<input type="submit" value="Add Score"/>
+		      	</form>
+			</td>
+			<td>
+		    	<form th:action="@{/edit}" method="post" th:object="${student}">
+		    		<input type="hidden" name="studentNumber" th:value="${student.studentNumber}">
+		    		<input type="submit" value="Edit"/>
+		        </form>
+			</td>
+			<td>
+		    	<form th:action="@{/delete}" method="post" th:object="${student}">
+		    		<input type="hidden" name="studentNumber" th:value="${student.studentNumber}">
+		        	<input type="submit" value="Delete"/>
+		      	</form>
+			</td>
+		</tr>
+		
+	</table>
+
+</body>
+</html>
